@@ -54,6 +54,7 @@ class utf8
       return (byte[0] == 0);
     }
     int countBytes();
+    int countBytes31();
   friend std::istream& operator>> (std::istream&m, utf8&);
   friend std::ostream& operator<< (std::ostream&m, utf8&);
   friend std::ostream& operator>> (std::ostream&m, utf8*);
