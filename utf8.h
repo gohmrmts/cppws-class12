@@ -17,6 +17,7 @@ class utf8
   static unsigned const char Match5Byte = 0xf8;
   static unsigned const char Mask6Byte  = 0xfe;
   static unsigned const char Match6Byte = 0xfc;
+  static unsigned const char SizePattern[64];
   
   // バイト数判定
   inline bool is1byte()
@@ -53,9 +54,14 @@ class utf8
     {
       return (byte[0] == 0);
     }
-    int countBytes();
+    int countBytes13();
     int countBytes31();
+    inline int countBytes()
+    {
+      return SizePattern[(byte[0] >> 2) & 0x3f];
+    }
   friend std::istream& operator>> (std::istream&m, utf8&);
   friend std::ostream& operator<< (std::ostream&m, utf8&);
   friend std::ostream& operator>> (std::ostream&m, utf8*);
 };
+

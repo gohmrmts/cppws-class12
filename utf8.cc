@@ -2,6 +2,18 @@
 #include <sstream>
 #include "utf8.h"
 
+unsigned const char utf8::SizePattern[] = 
+{
+  0, 1, 1, 1, 1, 1, 1, 1,       // 00-07
+  1, 1, 1, 1, 1, 1, 1 ,1,       // 08-15
+  1, 1, 1, 1, 1, 1, 1, 1,       // 16-23
+  1, 1, 1, 1, 1, 1, 1 ,1,       // 24-31
+  0, 0, 0, 0, 0, 0, 0, 0,       // 32-39
+  0, 0, 0, 0, 0, 0, 0, 0,       // 40-47
+  2, 2, 2, 2, 2, 2, 2, 2,       // 48-55
+  3, 3, 3, 3, 4, 4, 5 ,6,       // 56-63
+};
+
 utf8::utf8(unsigned char x0, unsigned char x1, unsigned char x2, unsigned char x3, unsigned char x4, unsigned char x5)
 {
   byte[0] = x0;
@@ -40,7 +52,7 @@ utf8::utf8(const char *xp)
   }
 }
 
-int utf8::countBytes()
+int utf8::countBytes13()
 {
   if (is1byte()) return 1;
   else if (is2byte()) return 2;
@@ -57,7 +69,12 @@ int utf8::countBytes31()
   else if (is1byte()) return 1;
   else if (is4byte()) return 4;
   else if (is5byte()) return 5;
-  else return 6;
+  else 
+  {
+    std::cerr << "ERROR" << std::endl;
+    return 6;
+  }
+
 }
 
 std::istream& operator>> (std::istream& ios, utf8& uc)
